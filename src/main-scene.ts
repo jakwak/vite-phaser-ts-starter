@@ -1,8 +1,9 @@
 import 'phaser'
+
+import { KEY_CRATE } from './crate-pool'
 // import particleUrl from '../assets/particle.png'
 // import gaspUrl from '../assets/gasp.mp3'
 
-const KEY_CRATE = 'crate'
 const INFO_FORMAT = `Size:      %1
 Spawned:   %2
 Despawned: %3`
@@ -10,7 +11,7 @@ Despawned: %3`
 export class MainScene extends Phaser.Scene {
   // private startKey!: Phaser.Input.Keyboard.Key
   // private sprites: { s: Phaser.GameObjects.Image; r: number }[] = []
-  private group!: Phaser.GameObjects.Group
+  private group!: ICratePool
   private infoText!: Phaser.GameObjects.Text
 
   constructor() {
@@ -28,7 +29,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.group = this.add.group({ defaultKey: KEY_CRATE })
+    this.group = this.add.cratePool()
+    this.group.initializeWithSize(5)
 
     this.input.on(
       Phaser.Input.Events.POINTER_DOWN,
@@ -80,12 +82,7 @@ export class MainScene extends Phaser.Scene {
   private spawnCrate(x = 400, y = 300) {
     if (!this.group) return null
 
-    const crate: Phaser.GameObjects.Sprite = this.group.get(x, y, KEY_CRATE)
-
-    crate.alpha = 1
-    crate.scale = 1
-    crate.setVisible(true)
-    crate.setActive(true)
+    const crate = this.group.spawn(x, y)
 
     this.tweens.add({
       targets: crate,
@@ -93,8 +90,8 @@ export class MainScene extends Phaser.Scene {
       alpha: 0,
       duration: Phaser.Math.Between(500, 1000),
       onComplete: () => {
-        this.group!.killAndHide(crate)
-        this.tweens.killTweensOf(crate)
+        this.tweens.killTweensOf(crate!)
+        this.group!.despawn(crate!)
       },
     })
 

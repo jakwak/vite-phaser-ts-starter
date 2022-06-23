@@ -1,4 +1,4 @@
-/// <reference path="./main.d.ts" />
+////// <reference path="types/main.d.ts" />
 
 // import './style.css'
 
@@ -15,10 +15,10 @@ import { MainScene } from './main-scene'
 
 const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'ExampleGame',
-  url: 'https://github.com/digitsensitive/phaser3-typescript',
-  version: '2.0',
-  width: 800,
-  height: 600,
+  // url: 'https://github.com/digitsensitive/phaser3-typescript',
+  // version: '2.0',
+  // width: 800,
+  // height: 600,
   type: Phaser.AUTO,
   parent: 'app',
   scene: [MainScene],
