@@ -46,7 +46,7 @@ export default class CratePool
       crate.setActive(true)
       crate.setVisible(true)
       crate.world.add(crate.body)
-      crate.setAwake(true)
+      crate.setAwake()
     }
 
     return crate

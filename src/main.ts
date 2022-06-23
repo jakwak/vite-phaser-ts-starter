@@ -11,7 +11,8 @@
 // `;
 
 import 'phaser'
-import { MainScene } from './main-scene'
+// import { MainScene } from './main-scene'
+import TestScene from './test-scene'
 
 const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'ExampleGame',
@@ -21,7 +22,7 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
   // height: 600,
   type: Phaser.AUTO,
   parent: 'app',
-  scene: [MainScene],
+  scene: [TestScene],
   input: {
     keyboard: true,
   },
@@ -31,7 +32,7 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
       debug: {
         showSleeping: true,
       },
-      enableSleeping: true,
+      enableSleeping: false,
     },
   },
   backgroundColor: '#000000',

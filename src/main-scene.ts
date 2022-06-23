@@ -98,7 +98,7 @@ export class MainScene extends Phaser.Scene {
   private spawnCrate() {
     if (!this.group) return null
 
-    if (this.group.countActive(true) >= 10) return
+    if (this.group.countActive(true) >= 150) return
 
     const tex = this.textures.get(KEY_CRATE)
     const halfWidth = tex.getSourceImage().width * 0.5

@@ -14,3 +14,11 @@ declare namespace Phaser.GameObjects {
     cratePool(): ICratePool
   }
 }
+
+// declare interface ICrate extends Phaser.Physics.Matter.Image {}
+
+// declare namespace Phaser.GameObjects {
+//   interface GameObjectFactory {
+//     crate(): ICrate
+//   }
+// }
