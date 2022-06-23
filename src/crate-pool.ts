@@ -38,14 +38,15 @@ export default class CratePool
   spawn(x = 0, y = 0, key: string = KEY_CRATE) {
     const spawnExisting = this.countActive(false) > 0
 
-    const crate = this.get(x, y, key)
+    const crate: Crate = this.get(x, y, key)
 
     if (!crate) return
 
     if (spawnExisting) {
-      crate.setVisible(true)
       crate.setActive(true)
+      crate.setVisible(true)
       crate.world.add(crate.body)
+      crate.setAwake(true)
     }
 
     return crate

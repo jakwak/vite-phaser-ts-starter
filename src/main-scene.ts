@@ -29,17 +29,33 @@ export class MainScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.group = this.add.cratePool()
-    this.group.initializeWithSize(5)
-
-    this.input.on(
-      Phaser.Input.Events.POINTER_DOWN,
-      (pointer: { x: number | undefined; y: number | undefined }) => {
-        this.spawnCrate(pointer.x, pointer.y)
-      }
+    this.matter.world.setBounds(
+      0,
+      -100,
+      this.scale.width,
+      this.scale.height + 100
     )
 
+    this.group = this.add.cratePool()
+    // this.group.initializeWithSize(5)
+
+    this.time.addEvent({
+      delay: 500,
+      loop: true,
+      callback: () => {
+        this.spawnCrate()
+      },
+    })
+
+    // this.input.on(
+    //   Phaser.Input.Events.POINTER_DOWN,
+    //   (pointer: { x: number | undefined; y: number | undefined }) => {
+    //     this.spawnCrate(pointer.x, pointer.y)
+    //   }
+    // )
+
     this.infoText = this.add.text(16, 16, '')
+    this.infoText.setDepth(1000)
     // this.add.text(0, 0, 'Press S to restart scene', {
     //   fontSize: '60px',
     //   fontFamily: 'Helvetica',
@@ -79,20 +95,23 @@ export class MainScene extends Phaser.Scene {
     // }
   }
 
-  private spawnCrate(x = 400, y = 300) {
+  private spawnCrate() {
     if (!this.group) return null
 
-    const crate = this.group.spawn(x, y)
+    if (this.group.countActive(true) >= 10) return
 
-    this.tweens.add({
-      targets: crate,
-      scale: 5,
-      alpha: 0,
-      duration: Phaser.Math.Between(500, 1000),
-      onComplete: () => {
-        this.tweens.killTweensOf(crate!)
-        this.group!.despawn(crate!)
-      },
+    const tex = this.textures.get(KEY_CRATE)
+    const halfWidth = tex.getSourceImage().width * 0.5
+    const x = Phaser.Math.Between(halfWidth, this.scale.width - halfWidth)
+
+    const crate = this.group.spawn(x, 0)
+
+    if (!crate) {
+      return
+    }
+
+    crate.setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+      this.group!.despawn(crate)
     })
 
     return crate

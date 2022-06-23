@@ -5,7 +5,7 @@ interface Window {
 
 interface ICratePool extends Phaser.GameObjects.Group {
   initializeWithSize(size: number): void
-  spawn(x: number, y: number, key?: string): Phaser.GameObjects.Image
+  spawn(x: number, y: number, key?: string): any
   despawn(crate: Phaser.GameObjects.Image): void
 }
 
